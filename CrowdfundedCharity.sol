@@ -6,7 +6,6 @@ contract CrowdFunding {
         address addr;
         uint amount;
     }
-
     struct Campaign {
         address beneficiary;
         uint fundingGoal;
