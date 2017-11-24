@@ -20,7 +20,7 @@ contract CrowdfundedCharity {
     mapping (uint => Campaign) campaigns;
 
     //simple constructor
-    function Voting(uint version_number) public {
+    function CrowdfundedCharity (uint version_number) public {
     version = version_number;
   }
 
