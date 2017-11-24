@@ -1,6 +1,6 @@
 pragma solidity ^0.4.18;
 
-contract CrowdFunding {
+contract CrowdfundedCharity {
     // Defines a new type with two fields.
     struct Funder {
         address addr;
