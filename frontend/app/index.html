@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en" ng-app="webUI">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Web UI</title>
+
+    <!-- STYLES -->
+    <!-- build:css lib/css/main.min.css -->
+    <link rel="stylesheet" type="text/css" href="bower_components/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
+    <!-- Custom css -->
+    <link rel="stylesheet" href="style/css/rdash.css">
+    <link rel="stylesheet" href="style/css/style.css">
+
+    <!-- endbuild -->
+    <!-- SCRIPTS -->
+    <!-- build:js lib/js/main.min.js -->
+    <script type="text/javascript" src="bower_components/angular/angular.min.js"></script>
+    <script type="text/javascript" src="bower_components/jquery/dist/jquery.min.js"></script>
+    <script type="text/javascript" src="bower_components/angular-cookies/angular-cookies.min.js"></script>
+    <script type="text/javascript" src="bower_components/angular-animate/angular-animate.min.js"></script>
+    <script type="text/javascript" src="bower_components/angular-touch/angular-touch.min.js"></script>
+    <script type="text/javascript" src="bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
+    <script type="text/javascript" src="bower_components/angular-cookies/angular-cookies.min.js"></script>
+    <script type="text/javascript" src="bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
+    <script type="text/javascript" src="bower_components/ng-file-upload-shim/ng-file-upload-shim.min.js"></script>
+    <script type="text/javascript" src="bower_components/ng-file-upload/ng-file-upload.min.js"></script>
+
+    <!-- App config Scripts -->
+    <script type="text/javascript" src="app.js"></script>
+    <script type="text/javascript" src="app.config.js"></script>
+
+    <!-- Directives -->
+    <script type="text/javascript" src="directives/widget.js"></script>
+    <script type="text/javascript" src="directives/widget-body.js"></script>
+    <script type="text/javascript" src="directives/widget-footer.js"></script>
+    <script type="text/javascript" src="directives/widget-header.js"></script>
+
+    <!-- Controllers -->
+    <script type="text/javascript" src="controllers/masterController.js"></script>
+
+    <!-- Components -->
+    <script type="text/javascript" src="components/partial/sidebar.component.js"></script>
+    <script type="text/javascript" src="components/partial/header.component.js"></script>
+    <script type="text/javascript" src="components/partial/box.component.js"></script>
+
+
+
+</head>
+
+<body ng-controller="masterController">
+  <div id="page-wrapper" ng-cloak>
+        <!-- Content Wrapper -->
+        <div id="content-wrapper">
+            <!-- Page Content -->
+            <div class="page-content">
+              <!-- Main Content -->
+              <ui-view/>
+            </div>
+            <!-- End Page Content -->
+        </div>
+        <!-- End Content Wrapper -->
+  </div>
+</body>
+
+</html>
