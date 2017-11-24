@@ -16,7 +16,13 @@ contract CrowdfundedCharity {
     }
 
     uint numCampaigns;
+    uint version;
     mapping (uint => Campaign) campaigns;
+
+    //simple constructor
+    function Voting(uint version_number) public {
+    version = version_number;
+  }
 
     function newCampaign(address beneficiary, uint goal, uint deadline) public returns (uint campaignID) {
         campaignID = numCampaigns++; // campaignID is return variable
