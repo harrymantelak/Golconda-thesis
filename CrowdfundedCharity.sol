@@ -2,6 +2,20 @@ pragma solidity ^0.4.18;
 
 contract CrowdfundedCharity {
     // Defines a new type with two fields.
+
+    event NewFunder(
+      address addr,
+      uint amount
+    );
+
+    event NewCharity(
+      address beneficiary,
+      uint fundingGoal,
+      uint fundingDeadlineBlock
+      );
+
+
+
     struct Funder {
         address addr;
         uint amount;
@@ -28,6 +42,7 @@ contract CrowdfundedCharity {
         campaignID = numCampaigns++; // campaignID is return variable
         // Creates new struct and saves in storage. We leave out the mapping type.
         campaigns[campaignID] = Campaign(beneficiary, goal, deadline, 0, 0);
+        NewCharity(beneficiary, goal, deadline);
     }
 
    function totalFundsFor(uint8 campaignID) view public returns (uint){
@@ -47,6 +62,7 @@ contract CrowdfundedCharity {
 
         c.funders[c.numFunders++] = Funder({addr: msg.sender, amount: msg.value});
         c.amount += msg.value;
+        NewFunder(msg.sender,msg.value);
     }
 
     function checkGoalReached(uint campaignID) public returns (bool reached) {
