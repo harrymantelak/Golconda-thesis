@@ -15,14 +15,14 @@ contract CrowdfundedCharity {
         mapping (uint => Funder) funders;
     }
 
-    uint numCampaigns;
-    uint version;
-    mapping (uint => Campaign) campaigns;
+    uint public numCampaigns;
+    bytes32 version;
+    mapping (uint => Campaign) public campaigns;
 
     //simple constructor
-    function CrowdfundedCharity (uint version_number) public {
+    function CrowdfundedCharity (bytes32 version_number) public {
     version = version_number;
-  }
+    }
 
     function newCampaign(address beneficiary, uint goal, uint deadline) public returns (uint campaignID) {
         campaignID = numCampaigns++; // campaignID is return variable
@@ -30,13 +30,20 @@ contract CrowdfundedCharity {
         campaigns[campaignID] = Campaign(beneficiary, goal, deadline, 0, 0);
     }
 
+   function totalFundsFor(uint8 campaignID) view public returns (uint){
+        require(campaignID <= numCampaigns);
+        return campaigns[campaignID].amount;
+   }
+
+
     function contribute(uint campaignID) public payable {
-        Campaign storage c = campaigns[campaignID];
-        // Creates a new temporary memory struct, initialised with the given values
-        // and copies it over to storage.
-        // Note that you can also use Funder(msg.sender, msg.value) to initialise.
+
+        require(campaignID <= numCampaigns);
         require( c.fundingDeadlineBlock < block.number );
         require( c.amount + msg.value > c.fundingGoal );
+        Campaign storage c = campaigns[campaignID];
+        // Creates a new temporary memory struct, initialised with the given values
+        // and copies it over to memory.
 
         c.funders[c.numFunders++] = Funder({addr: msg.sender, amount: msg.value});
         c.amount += msg.value;
