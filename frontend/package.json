@@ -1,8 +1,8 @@
 {
-  "name": "web-ui",
+  "name": "Golconda-ui",
   "private": true,
   "version": "0.0.0",
-  "description": "Web ui interface",
+  "description": "Golconda ui interface",
   "license": "MIT",
   "devDependencies": {
     "bower": "^1.7.7",
