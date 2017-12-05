@@ -1,0 +1,17 @@
+{
+  "name": "Golconda",
+  "private": true,
+  "version": "0.0.0",
+  "description": "Golconda",
+  "license": "MIT",
+  "devDependencies": {},
+  "scripts": {
+    "prestart": "npm install",
+    "start": "node cli.js"
+  },
+  "dependencies": {
+    "ethereumjs-testrpc": "^6.0.3",
+    "solc": "^0.4.19",
+    "web3": "0.20.1"
+  }
+}
