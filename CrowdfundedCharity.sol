@@ -29,8 +29,8 @@ contract CrowdfundedCharity {
         mapping (uint => Funder) funders;
     }
 
-    uint public numCampaigns;
-    bytes32 version;
+    uint public numCampaigns = 0;
+    bytes32 public version;
     mapping (uint => Campaign) public campaigns;
 
     //simple constructor
@@ -39,10 +39,13 @@ contract CrowdfundedCharity {
     }
 
     function newCampaign(address beneficiary, uint goal, uint deadline) public returns (uint campaignID) {
-        campaignID = numCampaigns++; // campaignID is return variable
+        campaignID = numCampaigns++;
+        numCampaigns++;
+        // campaignID is return variable
         // Creates new struct and saves in storage. We leave out the mapping type.
         campaigns[campaignID] = Campaign(beneficiary, goal, deadline, 0, 0);
         NewCharity(beneficiary, goal, deadline);
+        return campaignID;
     }
 
    function totalFundsFor(uint8 campaignID) view public returns (uint){
