@@ -22,10 +22,9 @@ abiDefinition = JSON.parse(compiledCode.contracts[':CrowdfundedCharity'].interfa
 CharityContract = web3.eth.contract(abiDefinition);
 
 byteCode = compiledCode.contracts[':CrowdfundedCharity'].bytecode;
-console.log(byteCode);
 
-deployedContract = CharityContract.new(['Rama','Nick','Jose'],{data: byteCode, from: web3.eth.accounts[0], gas: 4700000})
+deployedContract = CharityContract.new(['1.0.3'],{data: byteCode, from: web3.eth.accounts[0], gas: 4700000})
 
 console.log(deployedContract.address);
 
-contractInstance = CharityContract.at(deployedContract.address);
+contractInstance = CharityContract.at(deployedContract.address)

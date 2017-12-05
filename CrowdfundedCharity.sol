@@ -40,11 +40,10 @@ contract CrowdfundedCharity {
 
     function newCampaign(address beneficiary, uint goal, uint deadline) public returns (uint campaignID) {
         campaignID = numCampaigns++;
-        numCampaigns++;
         // campaignID is return variable
         // Creates new struct and saves in storage. We leave out the mapping type.
         campaigns[campaignID] = Campaign(beneficiary, goal, deadline, 0, 0);
-        NewCharity(beneficiary, goal, deadline);
+        //NewCharity(beneficiary, goal, deadline);
         return campaignID;
     }
 
