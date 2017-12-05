@@ -5,7 +5,6 @@ var app = angular.module('webUI', [
   'ui.router',
   'ui.bootstrap',
   'ngCookies',
-  'ngFileUpload',
 ]);
 
 app.factory('appData', ['$rootScope', '$cookieStore', function($rootScope, $cookieStore) {
