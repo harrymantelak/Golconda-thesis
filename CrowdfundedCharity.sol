@@ -55,9 +55,9 @@ contract CrowdfundedCharity {
 
     function contribute(uint campaignID) public payable {
 
-        require(campaignID <= numCampaigns);
-        require( c.fundingDeadlineBlock < block.number );
-        require( c.amount + msg.value > c.fundingGoal );
+      //  require(campaignID <= numCampaigns);
+      //  require( c.fundingDeadlineBlock < block.number );
+      //  require( c.amount + msg.value < c.fundingGoal );
         Campaign storage c = campaigns[campaignID];
         // Creates a new temporary memory struct, initialised with the given values
         // and copies it over to memory.
