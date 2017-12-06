@@ -10,7 +10,6 @@ var app = angular.module('webUI', [
 app.factory('appData', ['$rootScope', '$cookieStore', function($rootScope, $cookieStore) {
 
   var service = {
-
     model: {
       toggle: true,
     },
@@ -44,5 +43,13 @@ app.factory('appData', ['$rootScope', '$cookieStore', function($rootScope, $cook
 }]);
 
 app.run(['$rootScope', '$state', '$cookieStore', 'appData', function($rootScope, $state, $cookieStore, appData) {
+    web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));
 
+    var interface = '[{"constant":true,"inputs":[{"name":"campaignID","type":"uint8"}],"name":"totalFundsFor","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"name":"","type":"uint256"}],"name":"campaigns","outputs":[{"name":"beneficiary","type":"address"},{"name":"fundingGoal","type":"uint256"},{"name":"fundingDeadlineBlock","type":"uint256"},{"name":"numFunders","type":"uint256"},{"name":"amount","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"numCampaigns","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"version","outputs":[{"name":"","type":"bytes32"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"campaignID","type":"uint256"}],"name":"checkGoalReached","outputs":[{"name":"reached","type":"bool"}],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":false,"inputs":[{"name":"campaignID","type":"uint256"}],"name":"contribute","outputs":[],"payable":true,"stateMutability":"payable","type":"function"},{"constant":false,"inputs":[{"name":"beneficiary","type":"address"},{"name":"goal","type":"uint256"},{"name":"deadline","type":"uint256"}],"name":"newCampaign","outputs":[{"name":"campaignID","type":"uint256"}],"payable":false,"stateMutability":"nonpayable","type":"function"},{"inputs":[{"name":"version_number","type":"bytes32"}],"payable":false,"stateMutability":"nonpayable","type":"constructor"},{"anonymous":false,"inputs":[{"indexed":false,"name":"addr","type":"address"},{"indexed":false,"name":"amount","type":"uint256"}],"name":"NewFunder","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"name":"beneficiary","type":"address"},{"indexed":false,"name":"fundingGoal","type":"uint256"},{"indexed":false,"name":"fundingDeadlineBlock","type":"uint256"}],"name":"NewCharity","type":"event"}]';
+
+    abi = JSON.parse(interface);
+    var CharityContract = web3.eth.contract(abi);
+    var contractInstance = CharityContract.at('0x0292c041e7418918c42a165f3b59dccb4a0496c3');
+
+    $rootScope.contract = contractInstance;
 }]);
