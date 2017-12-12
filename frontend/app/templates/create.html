@@ -1,0 +1,32 @@
+<sidebar locationName= {{ locationName }}></sidebar>
+
+<div class="container center-container form-container margin-top-50">
+    <h1 class="red">Campaign Form</h1>
+    <form class="left-container" ng-submit="submit()">
+      <div class="form-group margin-top-30 grey">
+        <label for="name">Name</label>
+        <input type="text" class="form-control" ng-model="campaign.name" id="name" required>
+      </div>
+
+      <div class="form-group margin-top-30 grey">
+         <label for="address">Funds address</label>
+         <input type="text" class="form-control" ng-model="campaign.address" id="address" required>
+      </div>
+
+      <div class="form-group margin-top-30 grey">
+         <label for="funds">Funding goal</label>
+         <input type="number" name="funds" id="funds" ng-model="campaign.funds" class="form-control"
+                min="0" required>
+      </div>
+
+      <div class="form-group margin-top-30 grey">
+        <label for="days">Duration in days</label>
+        <input type="number" name="input" id="days" ng-model="campaign.days" class="form-control"
+               min="1" max="365" required>
+      </div>
+
+      <button type="submit" class="btn btn-lg btn-success">Submit</button>
+      <button type="button" ng-click="changeView('home')" class="btn btn-lg btn-danger margin-left-50">Cancel</button>
+
+    </form>
+</div>

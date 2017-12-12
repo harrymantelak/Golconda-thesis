@@ -49,7 +49,8 @@ app.run(['$rootScope', '$state', '$cookieStore', 'appData', function($rootScope,
 
     abi = JSON.parse(interface);
     var CharityContract = web3.eth.contract(abi);
-    var contractInstance = CharityContract.at('0x0292c041e7418918c42a165f3b59dccb4a0496c3');
+    var contractInstance = CharityContract.at('0x840bff818faa1ccbfefe30a8c52bf27ce75ab6bf');
 
     $rootScope.contract = contractInstance;
+    $rootScope.args = {from: web3.eth.accounts[0], gas:450000};
 }]);

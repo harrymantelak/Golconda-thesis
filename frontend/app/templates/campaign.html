@@ -1,6 +1,6 @@
 <!-- Charity -->
 <div class="row box" ng-controller="campaignController">
-    <div class="col-md-12">
+    <div class="col-md-12 center-container">
         <div class="ch-title">
             {{campaign.title}}
         </div>
@@ -11,7 +11,11 @@
             Goal : {{campaign.goal}} ∄
         </div>
 
-        <mat-progress-bar mode="determinate" value="40"></mat-progress-bar>
+        <div class="ch-goal">
+            Duration in days: {{campaign.deadline}}
+        </div>
+
+        <button type="button" class="btn btn-lg btn-success">Contribute</button>
 
 
         </div>
