@@ -20,6 +20,12 @@
     font-size: 20px;
 }
 
+.sidebar-item {
+    height: 250px;
+}
+
+.sidebar-item:hover {}
+
 .header {
     background-color: #757575;
     color: #FFF;
@@ -28,9 +34,84 @@
 .box {
     background-color: #FFF;
     color: #e75753;
-    width: 550px;
     height: 310px;
-    text-align: center;
     margin: 10px 10px 10px 10px;
     box-shadow: 0px 1px 3px 0px #757575;
+    padding: 10px;
+}
+
+.ch-title {
+    font-size: 18px;
+    text-align: center;
+}
+
+.ch-goal {
+    font-size: 30px;
+    color: #757575;
+    text-align: center;
+    padding: 10px 0px 10px 0px;
+}
+
+hr.style17 {
+    border-top: 1px solid #8c8b8b;
+    text-align: center;
+}
+
+hr.style17:after {
+    content: '§';
+    display: inline-block;
+    position: relative;
+    top: -14px;
+    padding: 0 10px;
+    background: #FFF;
+    color: #8c8b8b;
+    font-size: 18px;
+    -webkit-transform: rotate(60deg);
+    -moz-transform: rotate(60deg);
+    transform: rotate(60deg);
+}
+
+.red {
+    color: #e75753;
+}
+
+.grey {
+    color: #757575;
+}
+
+.form-group {
+    font-size: 20px;
+}
+
+/* CONTAINERS */
+
+.center-container {
+    text-align: center;
+}
+
+.left-container {
+    text-align: left;
+}
+
+.form-container {
+    background-color: #fff;
+    padding: 50px 150px 50px 150px;
+}
+
+/* MARGIN */
+
+.margin-top-100 {
+    margin-top: 125px;
+}
+
+.margin-top-30 {
+    margin-top: 30px;
+}
+
+.margin-top-50 {
+    margin-top: 50px;
+}
+
+.margin-left-50 {
+    margin-left: 50px;
 }

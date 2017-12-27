@@ -15,6 +15,20 @@ angular.module('webUI')
                 data: {
                   locationName: 'Dashboard'
                 }
+            }).state('create', {
+                url: '/create',
+                templateUrl: 'templates/create.html',
+                controller: 'createController',
+                data: {
+                  locationName: 'Create'
+                }
+            }).state('view', {
+                url: '/view',
+                templateUrl: 'templates/dashboard.html',
+                controller: 'masterController',
+                data: {
+                  locationName: 'Dashboard'
+                }
             });
     }
 ]);
