@@ -27,7 +27,7 @@ angular.module('webUI')
                 templateUrl: 'templates/view.html',
                 controller: 'masterController',
                 data: {
-                  locationName: 'Dashboard'
+                  locationName: 'View'
                 }
             });
     }

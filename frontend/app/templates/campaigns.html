@@ -2,7 +2,7 @@
 <div ng-controller="campaignsController">
     <div ng-repeat="campaign in campaigns track by $index" >
         <div class="col-md-4">
-            <campaign campaign="campaign" campaignName="$index + 1"></campaign>
+            <campaign campaign="campaign" cid="($index)" ></campaign>
         </div>
     </div>
 </div>

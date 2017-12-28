@@ -8,6 +8,25 @@
     text-align: center;
 }
 
+.main-page {
+    text-align: center;
+    padding: 20px;
+    margin: 5% 10% 5% 10%;
+    background-color: #FFF;
+    color: #e75753;
+    font-size: 34px;
+}
+
+.main-content1 {
+    color: #757575;
+    font-size: 28px;
+}
+
+.main-content2 {
+    color: #757575;
+    font-size: 20px;
+}
+
 /* SIDEBAR */
 
 .sidebar-wrapper {
@@ -21,6 +40,8 @@
     padding-top: 20px;
     font-size: 20px;
 }
+
+.sidebar-title {}
 
 .sidebar-item {
     height: 250px;
@@ -36,14 +57,14 @@
 .box {
     background-color: #FFF;
     color: #e75753;
-    height: 310px;
+    height: 100%;
     margin: 10px 10px 10px 10px;
     box-shadow: 0px 1px 3px 0px #757575;
     padding: 10px;
 }
 
 .ch-title {
-    font-size: 18px;
+    font-size: 26px;
     text-align: center;
 }
 
@@ -52,6 +73,11 @@
     color: #757575;
     text-align: center;
     padding: 10px 0px 10px 0px;
+}
+
+.ch-address {
+    color: #e75753;
+    font-size: 18px;
 }
 
 hr.style17 {
@@ -83,6 +109,10 @@ hr.style17:after {
 
 .form-group {
     font-size: 20px;
+}
+
+.pointer {
+    cursor: pointer;
 }
 
 /* CONTAINERS */
