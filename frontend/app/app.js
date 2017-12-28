@@ -1,3 +1,4 @@
+
 // Define the `webUI` module
 var app = angular.module('webUI', [
   'ngAnimate',
@@ -43,14 +44,45 @@ app.factory('appData', ['$rootScope', '$cookieStore', function($rootScope, $cook
 }]);
 
 app.run(['$rootScope', '$state', '$cookieStore', 'appData', function($rootScope, $state, $cookieStore, appData) {
-    web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));
+    //web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));\
 
-    var interface = '[{"constant":true,"inputs":[{"name":"campaignID","type":"uint8"}],"name":"totalFundsFor","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"name":"","type":"uint256"}],"name":"campaigns","outputs":[{"name":"beneficiary","type":"address"},{"name":"fundingGoal","type":"uint256"},{"name":"fundingDeadlineBlock","type":"uint256"},{"name":"numFunders","type":"uint256"},{"name":"amount","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"numCampaigns","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"version","outputs":[{"name":"","type":"bytes32"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"campaignID","type":"uint256"}],"name":"checkGoalReached","outputs":[{"name":"reached","type":"bool"}],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":false,"inputs":[{"name":"campaignID","type":"uint256"}],"name":"contribute","outputs":[],"payable":true,"stateMutability":"payable","type":"function"},{"constant":false,"inputs":[{"name":"beneficiary","type":"address"},{"name":"goal","type":"uint256"},{"name":"deadline","type":"uint256"}],"name":"newCampaign","outputs":[{"name":"campaignID","type":"uint256"}],"payable":false,"stateMutability":"nonpayable","type":"function"},{"inputs":[{"name":"version_number","type":"bytes32"}],"payable":false,"stateMutability":"nonpayable","type":"constructor"},{"anonymous":false,"inputs":[{"indexed":false,"name":"addr","type":"address"},{"indexed":false,"name":"amount","type":"uint256"}],"name":"NewFunder","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"name":"beneficiary","type":"address"},{"indexed":false,"name":"fundingGoal","type":"uint256"},{"indexed":false,"name":"fundingDeadlineBlock","type":"uint256"}],"name":"NewCharity","type":"event"}]';
+    if (typeof web3 !== 'undefined') {
+      console.warn("Using web3 detected from external source like Metamask");
+      // Use Mist/MetaMask's provider
+      web3 = new Web3(web3.currentProvider);
+      web3.version.getNetwork((err, netId) => {
+          switch (netId) {
+            case "1":
+              console.log('This is mainnet')
+              break
+            case "2":
+              console.log('This is the deprecated Morden test network.')
+              break
+            case "3":
+              console.log('This is the ropsten test network.')
+              break
+            default:
+              console.log('This is an unknown network.')
+          }
+        })
 
-    abi = JSON.parse(interface);
-    var CharityContract = web3.eth.contract(abi);
-    var contractInstance = CharityContract.at('0x840bff818faa1ccbfefe30a8c52bf27ce75ab6bf');
+      var interface = '[{"constant":true,"inputs":[{"name":"campaignID","type":"uint8"}],"name":"totalFundsFor","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"name":"","type":"uint256"}],"name":"campaigns","outputs":[{"name":"beneficiary","type":"address"},{"name":"fundingGoal","type":"uint256"},{"name":"fundingDeadlineBlock","type":"uint256"},{"name":"numFunders","type":"uint256"},{"name":"amount","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"numCampaigns","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"version","outputs":[{"name":"","type":"bytes32"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"campaignID","type":"uint256"}],"name":"checkGoalReached","outputs":[{"name":"reached","type":"bool"}],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":false,"inputs":[{"name":"campaignID","type":"uint256"}],"name":"contribute","outputs":[],"payable":true,"stateMutability":"payable","type":"function"},{"constant":false,"inputs":[{"name":"beneficiary","type":"address"},{"name":"goal","type":"uint256"},{"name":"deadline","type":"uint256"}],"name":"newCampaign","outputs":[{"name":"campaignID","type":"uint256"}],"payable":false,"stateMutability":"nonpayable","type":"function"},{"inputs":[{"name":"version_number","type":"bytes32"}],"payable":false,"stateMutability":"nonpayable","type":"constructor"},{"anonymous":false,"inputs":[{"indexed":false,"name":"addr","type":"address"},{"indexed":false,"name":"amount","type":"uint256"}],"name":"NewFunder","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"name":"beneficiary","type":"address"},{"indexed":false,"name":"fundingGoal","type":"uint256"},{"indexed":false,"name":"fundingDeadlineBlock","type":"uint256"}],"name":"NewCharity","type":"event"}]';
 
-    $rootScope.contract = contractInstance;
-    $rootScope.args = {from: web3.eth.accounts[0], gas:450000};
+      abi = JSON.parse(interface);
+      var CharityContract = web3.eth.contract(abi);
+      var contractInstance = CharityContract.at('0xe6C6C35e5B07B3F8A57F7fB981E92ec44c756148');
+
+      $rootScope.contract = contractInstance;
+
+      $rootScope.args = {from: web3.eth.accounts[0], gas:450000};
+    }
+
+
 }]);
+
+var handleJSONFile = function (err, data) {
+   if (err) {
+      throw err;
+   }
+   markers = JSON.parse(data);
+ }

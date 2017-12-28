@@ -1,8 +1,8 @@
 <!-- Campaigns -->
 <div ng-controller="campaignsController">
-    <div ng-repeat="campaign in campaigns" >
+    <div ng-repeat="campaign in campaigns track by $index" >
         <div class="col-md-4">
-            <campaign campaign="campaign"></campaign>
+            <campaign campaign="campaign" campaignName="$index + 1"></campaign>
         </div>
     </div>
 </div>

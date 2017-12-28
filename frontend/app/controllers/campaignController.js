@@ -12,7 +12,6 @@ angular.module('webUI')
                 var goal = that.campaign[1].c[0];
                 // campain 2 -> days of campaign
                 var days = that.campaign[2].c[0];
-                console.log(that.campaign);
                 $scope.campaign = {
                         'id': '1',
                         'title': addressTo,

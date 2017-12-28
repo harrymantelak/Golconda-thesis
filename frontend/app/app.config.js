@@ -24,7 +24,7 @@ angular.module('webUI')
                 }
             }).state('view', {
                 url: '/view',
-                templateUrl: 'templates/dashboard.html',
+                templateUrl: 'templates/view.html',
                 controller: 'masterController',
                 data: {
                   locationName: 'Dashboard'
