@@ -26,6 +26,7 @@ contract CrowdfundedCharity {
         uint fundingDeadlineBlock;
         uint numFunders;
         uint amount;
+        //TODO : Add a name, description and unique campaignID (starting from 1)
         mapping (uint => Funder) funders;
     }
 
