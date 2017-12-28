@@ -6,6 +6,7 @@ angular
         templateUrl: "templates/campaign.html",
         controller: "campaignController",
         bindings: {
-            campaign: '='
+            campaign: '=' ,
+            cid: '='
         },
     });

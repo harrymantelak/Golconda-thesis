@@ -18,9 +18,6 @@ angular.module('webUI')
                             if(!error)
                             {
                                 $scope.campaigns.push(result);
-                                console.log(result);
-                                console.log($scope.campaigns);
-
                                 $scope.$apply();
                             }
                             else
