@@ -22,10 +22,12 @@ contract CrowdfundedCharity {
     }
     struct Campaign {
         address beneficiary; // This will be the adress to be paid for the order
+        uint id; //This is different from campaign ID, used to identify each campaign from the frontend
         uint fundingGoal;
         uint fundingDeadlineBlock;
         uint numFunders;
         uint amount;
+        bytes32 name;
         //TODO : Add a name, description and unique campaignID (starting from 1)
         mapping (uint => Funder) funders;
     }
@@ -39,11 +41,13 @@ contract CrowdfundedCharity {
     version = version_number;
     }
 
-    function newCampaign(address beneficiary, uint goal, uint deadline) public returns (uint campaignID) {
+    function newCampaign(address beneficiary, uint goal, uint deadline, bytes32 name) public returns (uint campaignID) {
+        // deadline is given in days
         campaignID = numCampaigns++;
+        uint deadlineBlock = block.number + mul(deadline,5760);
         // campaignID is return variable
         // Creates new struct and saves in storage. We leave out the mapping type.
-        campaigns[campaignID] = Campaign(beneficiary, goal, deadline, 0, 0);
+        campaigns[campaignID] = Campaign(beneficiary, campaignID + 1, goal, deadlineBlock, 0, 0, name);
         //NewCharity(beneficiary, goal, deadline);
         return campaignID;
     }
@@ -67,6 +71,15 @@ contract CrowdfundedCharity {
         c.amount += msg.value;
         NewFunder(msg.sender,msg.value);
     }
+
+    function mul(uint256 a, uint256 b) internal pure returns (uint256) {
+    if (a == 0) {
+      return 0;
+    }
+    uint256 c = a * b;
+    assert(c / a == b);
+    return c;
+  }
 
     function checkGoalReached(uint campaignID) public returns (bool reached) {
         Campaign storage c = campaigns[campaignID];
