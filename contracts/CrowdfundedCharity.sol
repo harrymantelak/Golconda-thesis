@@ -6,7 +6,8 @@ contract CrowdfundedCharity {
 
     event NewFunder(
       address addr,
-      uint amount
+      uint amount,
+      uint campaignID
     );
 
     event NewCharity(
@@ -64,7 +65,7 @@ contract CrowdfundedCharity {
         // campaignID is the return variable
         // Creates new struct and saves in storage. We leave out the mapping type.
         campaigns[campaignID] = Campaign(beneficiary, campaignID + 1, goal, deadlineBlock, 0, 0, name, description);
-        NewCharity(beneficiary, goal, deadlineBlock);
+        //NewCharity(beneficiary, goal, deadlineBlock);
         return campaignID;
     }
 
@@ -82,9 +83,9 @@ contract CrowdfundedCharity {
       //  require( c.fundingDeadlineBlock < block.number );
       //  require( c.amount + msg.value < c.fundingGoal );
 
-      c.funders[c.numFunders++] = Funder({addr: msg.sender, amount: msg.value});
+      c.funders[c.numFunders++] = Funder({addr: msg.sender, amount: msg.value, campaignID: campaignID});
       c.amount += msg.value;
-      NewFunder(msg.sender,msg.value,campaignID);
+      //NewFunder(msg.sender,msg.value,campaignID);
     }
 
     function mul(uint256 a, uint256 b) internal pure returns (uint256) {
