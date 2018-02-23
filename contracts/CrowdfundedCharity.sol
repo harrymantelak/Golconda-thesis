@@ -29,9 +29,9 @@ contract CrowdfundedCharity {
         uint fundingDeadlineBlock;
         uint numFunders;
         uint amount;
+        uint state; // states are : 1-successful, 2-unsuccessful, 3-pending
         bytes32 name;
         string description;
-        bool isActive;
         mapping (uint => Funder) funders;
     }
 
@@ -63,11 +63,11 @@ contract CrowdfundedCharity {
         // we calculate how many blocks the campaign will be valid for.
         numCampaigns++;
         campaignID = numCampaigns;
-        uint deadlineBlock = block.number + mul(deadline,5760); //Changed from 5760
+        uint deadlineBlock = block.number + mul(deadline,1); //Changed from 5760
         //for testing purposes.
         // campaignID is the return variable
         // Creates new struct and saves in storage. We leave out the mapping type.
-        campaigns[campaignID] = Campaign(beneficiary, campaignID , goal, deadlineBlock, 0, 0, name, description,true);
+        campaigns[campaignID] = Campaign(beneficiary, campaignID , goal, deadlineBlock, 0, 0,3, name, description);
         NewCharity(beneficiary, goal, deadlineBlock);
         return campaignID;
     }
@@ -85,7 +85,7 @@ contract CrowdfundedCharity {
       require(campaignID <= numCampaigns);
       require( c.fundingDeadlineBlock > block.number );
       require( c.amount + msg.value <= c.fundingGoal );
-      require( c.isActive);
+      require( c.state == 3);
       c.funders[c.numFunders++] = Funder({addr: msg.sender, amount: msg.value, campaignID: campaignID});
       c.amount += msg.value;
       NewFunder(msg.sender,msg.value,campaignID);
@@ -109,9 +109,9 @@ contract CrowdfundedCharity {
               uint refund =c.funders[i].amount;
               c.funders[i].amount =0;
               c.funders[i].addr.transfer(refund);
-              c.isActive = false;
-              return true;
             }
+            c.state = 2;
+            return true;
           }
 
           if (c.amount >= c.fundingGoal){
@@ -119,7 +119,7 @@ contract CrowdfundedCharity {
             amount = c.amount;
             c.amount = 0;
             c.beneficiary.transfer(amount);
-            c.isActive = false;
+            c.state = 1;
             return true;
           }
         }
@@ -129,7 +129,7 @@ contract CrowdfundedCharity {
           uint amount = c.amount;
           c.amount = 0;
           c.beneficiary.transfer(amount);
-          c.isActive = false;
+          c.state = 1;
           return true;
         }
 
