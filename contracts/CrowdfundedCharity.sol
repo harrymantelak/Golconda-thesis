@@ -31,6 +31,7 @@ contract CrowdfundedCharity {
         uint amount;
         bytes32 name;
         string description;
+        bool isActive;
         mapping (uint => Funder) funders;
     }
 
@@ -64,8 +65,8 @@ contract CrowdfundedCharity {
         uint deadlineBlock = block.number + mul(deadline,5760);
         // campaignID is the return variable
         // Creates new struct and saves in storage. We leave out the mapping type.
-        campaigns[campaignID] = Campaign(beneficiary, campaignID + 1, goal, deadlineBlock, 0, 0, name, description);
-        //NewCharity(beneficiary, goal, deadlineBlock);
+        campaigns[campaignID] = Campaign(beneficiary, campaignID + 1, goal, deadlineBlock, 0, 0, name, description,true);
+        NewCharity(beneficiary, goal, deadlineBlock);
         return campaignID;
     }
 
@@ -79,13 +80,13 @@ contract CrowdfundedCharity {
       Campaign storage c = campaigns[campaignID];
       // Creates a new temporary memory struct, initialised with the given values
       // and copies it over to memory.
-      //  require(campaignID <= numCampaigns);
-      //  require( c.fundingDeadlineBlock < block.number );
-      //  require( c.amount + msg.value < c.fundingGoal );
-
+      require(campaignID <= numCampaigns);
+      require( c.fundingDeadlineBlock > block.number );
+      require( c.amount + msg.value <= c.fundingGoal );
+      require( c.isActive);
       c.funders[c.numFunders++] = Funder({addr: msg.sender, amount: msg.value, campaignID: campaignID});
       c.amount += msg.value;
-      //NewFunder(msg.sender,msg.value,campaignID);
+      NewFunder(msg.sender,msg.value,campaignID);
     }
 
     function mul(uint256 a, uint256 b) internal pure returns (uint256) {
@@ -106,6 +107,8 @@ contract CrowdfundedCharity {
               uint refund =c.funders[i].amount;
               c.funders[i].amount =0;
               c.funders[i].addr.transfer(refund);
+              c.isActive = false;
+              return true;
             }
           }
 
@@ -114,6 +117,7 @@ contract CrowdfundedCharity {
             uint amount = c.amount;
             c.amount = 0;
             c.beneficiary.transfer(amount);
+            c.isActive = false;
             return true;
           }
         }
@@ -121,9 +125,10 @@ contract CrowdfundedCharity {
         if (c.amount < c.fundingGoal) {
             return false;
         }
-        amount = c.amount;
-        c.amount = 0;
-        c.beneficiary.transfer(amount);
-        return true;
+    }
+
+    function destroy() isAdmin public{
+      //cleanup function to be used ONLY IN TESTING
+      selfdestruct(owner);
     }
 }
