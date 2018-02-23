@@ -12,7 +12,7 @@ angular.module('webUI')
                   if(!error)
                   {
                       var num = result.c[0];
-                      for (var i = 0; i < num; i++)
+                      for (var i = 0; i <= num; i++)
                       {
                           $rootScope.contract.campaigns(i, function(error, result){
                             if(!error)

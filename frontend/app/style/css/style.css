@@ -69,6 +69,7 @@
     margin: 10px 10px 10px 10px;
     box-shadow: 0px 1px 3px 0px #757575;
     padding: 10px;
+    width: 100%;
 }
 
 .ch-title {
@@ -87,6 +88,11 @@
     color: #e75753;
     font-size: 18px;
 }
+
+.pink {
+    color: #e75753;
+}
+
 
 hr.style17 {
     border-top: 1px solid #8c8b8b;

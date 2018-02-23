@@ -1,18 +1,27 @@
 <!-- Charity -->
-<div class="row box" ng-controller="campaignController">
+<div class="row box round-container" ng-controller="campaignController">
     <div class="col-md-12 center-container">
         <div class="ch-title">
-            Campaign {{campaign.id + 1}}
+            {{campaign.name}}
         </div>
 
         <hr class="style17">
 
         <div class="ch-goal">
-            Goal : {{campaign.goal}} <img src="img/ethereum.png" width="20px" height="30px" alt="Ethereum Logo">
+            Campaign Description <br />
+            <div class="ch-address">{{campaign.description}}</div>
+        </div>
+
+        <hr class="style17">
+
+        <div class="ch-goal">
+            Goal : <br />
+            <div class="pink">{{campaign.goal}} <img src="img/ethereum.png" width="20px" height="30px" alt="Ethereum Logo"> </div>
         </div>
 
         <div class="ch-goal">
-            Current funding : {{campaign.amount}} <img src="img/ethereum.png" width="20px" height="30px" alt="Ethereum Logo">
+            Current funding : <br/>
+            <div class="pink">{{campaign.amount}} <img src="img/ethereum.png" width="20px" height="30px" alt="Ethereum Logo"> </div>
         </div>
 
         <div class="ch-goal">
@@ -20,10 +29,11 @@
         </div>
 
         <div class="ch-goal">
-            Duration in days: {{campaign.deadline}}
+            Duration in days: <br />
+            <div class="pink">{{campaign.deadline}} </div>
         </div>
 
-        <button type="button" class="btn btn-lg btn-success" ng-click="contribute()">Contribute</button>
+        <button type="button" class="btn btn-lg btn-success margin-top-30" ng-click="contribute()">Contribute</button>
 
 
         </div>
