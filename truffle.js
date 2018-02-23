@@ -8,8 +8,7 @@ module.exports = {
       port: 8545,
       from: '0xfea62d5040c90d8733405952624fbbbdcd34fb27',
       network_id: '*', // Match any network idz
-      gas: 4700000,
-      gasPrice:400000000000
+      gas: 4700000
     }
   }
 }

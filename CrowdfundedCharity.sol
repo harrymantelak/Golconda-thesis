@@ -1,11 +1,13 @@
 pragma solidity ^0.4.18;
 
 contract CrowdfundedCharity {
-    // Defines a new type with two fields.
+
+    address private owner;
 
     event NewFunder(
       address addr,
-      uint amount
+      uint amount,
+      uint campaignID
     );
 
     event NewCharity(
@@ -14,18 +16,22 @@ contract CrowdfundedCharity {
       uint fundingDeadlineBlock
       );
 
-
-
     struct Funder {
         address addr;
         uint amount;
+        uint campaignID;
     }
+
     struct Campaign {
         address beneficiary; // This will be the adress to be paid for the order
+        uint id; //This is different from campaign ID, used to identify each campaign from the frontend
         uint fundingGoal;
         uint fundingDeadlineBlock;
         uint numFunders;
         uint amount;
+        bytes32 name;
+        string description;
+        bool isActive;
         mapping (uint => Funder) funders;
     }
 
@@ -33,17 +39,36 @@ contract CrowdfundedCharity {
     bytes32 public version;
     mapping (uint => Campaign) public campaigns;
 
+    modifier isAdmin(){
+      require(msg.sender == owner);
+      _;
+    }
+
+    bool private stopped = false;
+
+    function toggleContractActive() isAdmin public {
+      stopped = !stopped;
+    }
+
+    modifier stopInEmergency { if(!stopped) _;}
+
     //simple constructor
     function CrowdfundedCharity (bytes32 version_number) public {
     version = version_number;
+    owner = msg.sender;
     }
 
-    function newCampaign(address beneficiary, uint goal, uint deadline) public returns (uint campaignID) {
-        campaignID = numCampaigns++;
-        // campaignID is return variable
+    function newCampaign(address beneficiary, uint goal, uint deadline, bytes32 name, string description) stopInEmergency public returns (uint campaignID) {
+        // deadline is given in days. Using the average number of blocks per day
+        // we calculate how many blocks the campaign will be valid for.
+        numCampaigns++;
+        campaignID = numCampaigns;
+        uint deadlineBlock = block.number + mul(deadline,100); //Changed from 5760
+        //for testing purposes.
+        // campaignID is the return variable
         // Creates new struct and saves in storage. We leave out the mapping type.
-        campaigns[campaignID] = Campaign(beneficiary, goal, deadline, 0, 0);
-        //NewCharity(beneficiary, goal, deadline);
+        campaigns[campaignID] = Campaign(beneficiary, campaignID , goal, deadlineBlock, 0, 0, name, description,true);
+        NewCharity(beneficiary, goal, deadlineBlock);
         return campaignID;
     }
 
@@ -52,22 +77,30 @@ contract CrowdfundedCharity {
         return campaigns[campaignID].amount;
    }
 
+    function contribute(uint campaignID) stopInEmergency public payable {
 
-    function contribute(uint campaignID) public payable {
-
-      //  require(campaignID <= numCampaigns);
-      //  require( c.fundingDeadlineBlock < block.number );
-      //  require( c.amount + msg.value < c.fundingGoal );
-        Campaign storage c = campaigns[campaignID];
-        // Creates a new temporary memory struct, initialised with the given values
-        // and copies it over to memory.
-
-        c.funders[c.numFunders++] = Funder({addr: msg.sender, amount: msg.value});
-        c.amount += msg.value;
-        NewFunder(msg.sender,msg.value);
+      Campaign storage c = campaigns[campaignID];
+      // Creates a new temporary memory struct, initialised with the given values
+      // and copies it over to memory.
+      require(campaignID <= numCampaigns);
+      require( c.fundingDeadlineBlock > block.number );
+      require( c.amount + msg.value <= c.fundingGoal );
+      require( c.isActive);
+      c.funders[c.numFunders++] = Funder({addr: msg.sender, amount: msg.value, campaignID: campaignID});
+      c.amount += msg.value;
+      NewFunder(msg.sender,msg.value,campaignID);
     }
 
-    function checkGoalReached(uint campaignID) public returns (bool reached) {
+    function mul(uint256 a, uint256 b) internal pure returns (uint256) {
+      if (a == 0) {
+        return 0;
+      }
+      uint256 c = a * b;
+      assert(c / a == b);
+      return c;
+  }
+
+    function checkGoalReached(uint campaignID) stopInEmergency public returns (bool reached) {
         Campaign storage c = campaigns[campaignID];
         if ( c.fundingDeadlineBlock <= block.number) {
           if (c.amount < c.fundingGoal) {
@@ -76,24 +109,37 @@ contract CrowdfundedCharity {
               uint refund =c.funders[i].amount;
               c.funders[i].amount =0;
               c.funders[i].addr.transfer(refund);
-
+              c.isActive = false;
+              return true;
             }
           }
+
           if (c.amount >= c.fundingGoal){
             // Charity Successful, Transfer Amount
-            uint amount = c.amount;
+            amount = c.amount;
             c.amount = 0;
             c.beneficiary.transfer(amount);
+            c.isActive = false;
             return true;
-
           }
         }
+        //For testing
+        if (c.amount >= c.fundingGoal){
+          // Charity Successful, Transfer Amount
+          uint amount = c.amount;
+          c.amount = 0;
+          c.beneficiary.transfer(amount);
+          c.isActive = false;
+          return true;
+        }
+
         if (c.amount < c.fundingGoal) {
             return false;
         }
-        amount = c.amount;
-        c.amount = 0;
-        c.beneficiary.transfer(amount);
-        return true;
+    }
+
+    function destroy() isAdmin public{
+      //cleanup function to be used ONLY IN TESTING
+      selfdestruct(owner);
     }
 }
