@@ -61,11 +61,13 @@ contract CrowdfundedCharity {
     function newCampaign(address beneficiary, uint goal, uint deadline, bytes32 name, string description) stopInEmergency public returns (uint campaignID) {
         // deadline is given in days. Using the average number of blocks per day
         // we calculate how many blocks the campaign will be valid for.
-        campaignID = numCampaigns++;
-        uint deadlineBlock = block.number + mul(deadline,5760);
+        numCampaigns++;
+        campaignID = numCampaigns;
+        uint deadlineBlock = block.number + mul(deadline,5760); //Changed from 5760
+        //for testing purposes.
         // campaignID is the return variable
         // Creates new struct and saves in storage. We leave out the mapping type.
-        campaigns[campaignID] = Campaign(beneficiary, campaignID + 1, goal, deadlineBlock, 0, 0, name, description,true);
+        campaigns[campaignID] = Campaign(beneficiary, campaignID , goal, deadlineBlock, 0, 0, name, description,true);
         NewCharity(beneficiary, goal, deadlineBlock);
         return campaignID;
     }
@@ -114,12 +116,21 @@ contract CrowdfundedCharity {
 
           if (c.amount >= c.fundingGoal){
             // Charity Successful, Transfer Amount
-            uint amount = c.amount;
+            amount = c.amount;
             c.amount = 0;
             c.beneficiary.transfer(amount);
             c.isActive = false;
             return true;
           }
+        }
+        //For testing
+        if (c.amount >= c.fundingGoal){
+          // Charity Successful, Transfer Amount
+          uint amount = c.amount;
+          c.amount = 0;
+          c.beneficiary.transfer(amount);
+          c.isActive = false;
+          return true;
         }
 
         if (c.amount < c.fundingGoal) {
