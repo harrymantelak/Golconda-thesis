@@ -1,32 +1,37 @@
 <sidebar locationName= {{ locationName }}></sidebar>
 
-<div class="container center-container form-container margin-top-50">
+<div class="container center-container form-container margin-top-50 round-container shadow">
     <h1 class="red">Campaign Form</h1>
     <form class="left-container" ng-submit="submit()">
       <div class="form-group margin-top-30 grey">
         <label for="name">Name</label>
-        <input type="text" class="form-control" ng-model="campaign.name" id="name" required>
+        <input type="text" class="form-control" ng-model="campaign.name" placeholder="Name of the campaign" id="name" required>
+      </div>
+
+      <div class="form-group margin-top-30 grey">
+        <label for="description">Description</label>
+        <input type="text" class="form-control" ng-model="campaign.description" placeholder="A short description of the campaign, max 140 characters" id="description" required>
       </div>
 
       <div class="form-group margin-top-30 grey">
          <label for="address">Funds address</label>
-         <input type="text" class="form-control" ng-model="campaign.address" id="address" required>
+         <input type="text" class="form-control" ng-model="campaign.address" placeholder="Funding address of the campaign" id="address" required>
       </div>
 
       <div class="form-group margin-top-30 grey">
          <label for="funds">Funding goal</label>
-         <input type="number" name="funds" id="funds" ng-model="campaign.funds" class="form-control"
+         <input type="number" name="funds" id="funds" ng-model="campaign.funds" placeholder="The funding goal in eth" class="form-control"
                 min="0" required>
       </div>
 
       <div class="form-group margin-top-30 grey">
         <label for="days">Duration in days</label>
-        <input type="number" name="input" id="days" ng-model="campaign.days" class="form-control"
+        <input type="number" name="input" id="days" ng-model="campaign.days" placeholder="Duration of the funding period in days" class="form-control"
                min="1" max="365" required>
       </div>
 
-      <button type="submit" class="btn btn-lg btn-success">Submit</button>
-      <button type="button" ng-click="changeView('home')" class="btn btn-lg btn-danger margin-left-50">Cancel</button>
+      <button type="submit" class="btn btn-lg btn-success margin-top-50">Submit</button>
+      <button type="button" ng-click="changeView('home')" class="btn btn-lg btn-danger margin-left-50 margin-top-50">Cancel</button>
 
     </form>
 </div>

@@ -20,14 +20,14 @@ angular.module('webUI')
                 templateUrl: 'templates/create.html',
                 controller: 'createController',
                 data: {
-                  locationName: 'Create'
+                  locationName: 'Create Campaign'
                 }
             }).state('view', {
                 url: '/view',
                 templateUrl: 'templates/view.html',
                 controller: 'masterController',
                 data: {
-                  locationName: 'View'
+                  locationName: 'View Campaigns'
                 }
             });
     }

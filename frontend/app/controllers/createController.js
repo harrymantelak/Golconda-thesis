@@ -11,8 +11,10 @@ angular.module('webUI')
                 var address = $scope.campaign.address;
                 var funds = $scope.campaign.funds;
                 var days = $scope.campaign.days;
+                var description = $scope.campaign.description;
+                var name = $scope.campaign.name;
 
-                $rootScope.contract.newCampaign(address, funds, days, function(error, result){
+                $rootScope.contract.newCampaign(address, funds, days, name, description, function(error, result){
                       if(!error)
                       {
                           $state.transitionTo('view');
