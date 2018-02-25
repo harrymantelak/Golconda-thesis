@@ -30,13 +30,13 @@ contract CrowdfundedCharity {
         uint numFunders;
         uint amount;
         uint state; // states are : 1-successful, 2-unsuccessful, 3-pending
-        bytes32 name;
+        string name;
         string description;
         mapping (uint => Funder) funders;
     }
 
     uint public numCampaigns = 0;
-    bytes32 public version;
+    string public version;
     mapping (uint => Campaign) public campaigns;
 
     modifier isAdmin(){
@@ -53,21 +53,21 @@ contract CrowdfundedCharity {
     modifier stopInEmergency { if(!stopped) _;}
 
     //simple constructor
-    function CrowdfundedCharity (bytes32 version_number) public {
+    function CrowdfundedCharity (string version_number) public {
     version = version_number;
     owner = msg.sender;
     }
 
-    function newCampaign(address beneficiary, uint goal, uint deadline, bytes32 name, string description) stopInEmergency public returns (uint campaignID) {
+    function newCampaign(address beneficiary, uint goal, uint deadline, string name, string description) stopInEmergency public returns (uint campaignID) {
         // deadline is given in days. Using the average number of blocks per day
         // we calculate how many blocks the campaign will be valid for.
-        numCampaigns++;
+        numCampaigns ++;
         campaignID = numCampaigns;
         uint deadlineBlock = block.number + mul(deadline,1); //Changed from 5760
         //for testing purposes.
         // campaignID is the return variable
         // Creates new struct and saves in storage. We leave out the mapping type.
-        campaigns[campaignID] = Campaign(beneficiary, campaignID , goal, deadlineBlock, 0, 0,3, name, description);
+        campaigns[campaignID] = Campaign(beneficiary, campaignID + 1 , goal, deadlineBlock, 0, 0,3, name, description);
         NewCharity(beneficiary, goal, deadlineBlock);
         return campaignID;
     }
@@ -85,7 +85,6 @@ contract CrowdfundedCharity {
       require(campaignID <= numCampaigns);
       require( c.fundingDeadlineBlock > block.number );
       require( c.amount + msg.value <= c.fundingGoal );
-      require( c.state == 3);
       c.funders[c.numFunders++] = Funder({addr: msg.sender, amount: msg.value, campaignID: campaignID});
       c.amount += msg.value;
       NewFunder(msg.sender,msg.value,campaignID);
@@ -105,18 +104,17 @@ contract CrowdfundedCharity {
         if ( c.fundingDeadlineBlock <= block.number) {
           if (c.amount < c.fundingGoal) {
             //Charity Failed, Initiate Refunds
-            for(uint i=1; i<c.numFunders; i++){
+            for(uint i=0; i<c.numFunders; i++){
               uint refund =c.funders[i].amount;
               c.funders[i].amount =0;
               c.funders[i].addr.transfer(refund);
             }
             c.state = 2;
-            return true;
           }
 
           if (c.amount >= c.fundingGoal){
             // Charity Successful, Transfer Amount
-            amount = c.amount;
+            uint amount = c.amount;
             c.amount = 0;
             c.beneficiary.transfer(amount);
             c.state = 1;
@@ -126,7 +124,7 @@ contract CrowdfundedCharity {
         //For testing
         if (c.amount >= c.fundingGoal){
           // Charity Successful, Transfer Amount
-          uint amount = c.amount;
+          amount = c.amount;
           c.amount = 0;
           c.beneficiary.transfer(amount);
           c.state = 1;
