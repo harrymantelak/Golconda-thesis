@@ -73,12 +73,12 @@
 }
 
 .ch-title {
-    font-size: 26px;
+    font-size: 25px;
     text-align: center;
 }
 
 .ch-goal {
-    font-size: 30px;
+    font-size: 20px;
     color: #757575;
     text-align: center;
     padding: 10px 0px 10px 0px;
@@ -86,7 +86,7 @@
 
 .ch-address {
     color: #e75753;
-    font-size: 18px;
+    font-size: 14px;
 }
 
 .pink {
@@ -160,4 +160,12 @@ hr.style17:after {
 
 .margin-left-50 {
     margin-left: 50px;
+}
+
+.link {
+  text-decoration: none;
+}
+
+.nohover:hover {
+  text-decoration: none;
 }

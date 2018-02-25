@@ -1,8 +1,23 @@
 <!-- Campaigns -->
 <div ng-controller="campaignsController">
-  <div ng-repeat="campaign in campaigns track by $index" >
-    <div class="col-md-5">
+  <div ng-if="campaigns.length > 0" ng-repeat="campaign in campaigns track by $index" >
+    <div class="col-md-4">
         <campaign campaign="campaign" cid="($index)" ></campaign>
+    </div>
+  </div>
+  <div ng-if="campaigns.length === 0" >
+    <div class="main-page round-container shadow">
+        There are no campaigns yet...
+
+        <br/><br/><br/>
+        <h2 class="main-content1">If you want to contribute you can check again later...</h2>
+        <br/>
+        <h2 class="main-content1">Or create your own campaign <a class="pointer link pink nohover" ng-click="changeView('create')">here</a></h2>
+        <br/>
+
+
+        <img src="img/ethereum.png" width="100px" height="200px" alt="Ethereum Logo">
+
     </div>
   </div>
 </div>
