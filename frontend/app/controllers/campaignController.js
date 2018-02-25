@@ -44,9 +44,9 @@ angular.module('webUI')
             }
 
             $scope.calcDuration = function(result, days) {
-              var deadline = Math.floor((days - result) / 5760);
+              var deadline = Math.max(0, Math.floor((days - result) / 5760));
               $scope.campaign.deadline = deadline;
-              console.log($scope.campaign);
+              $scope.$apply();
             }
 
             $scope.contribute = function() {

@@ -7,6 +7,7 @@ angular.module('webUI')
             $scope.campaigns = [];
             var that = this;
 
+
             that.$onInit = function() {
                 $rootScope.contract.numCampaigns({}, function(error, result){
                   if(!error)
@@ -32,6 +33,10 @@ angular.module('webUI')
                       console.error(error);
                   }
                 });
-            }
+            } 
+
+          $scope.changeView = function(view){
+            $state.transitionTo(view);
+          }
         }
     ]);

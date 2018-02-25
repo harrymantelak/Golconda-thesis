@@ -1,6 +1,6 @@
 {
-  "name": "webUI",
-  "description": "Web ui project",
+  "name": "Golconda-ui",
+  "description": "Golconda-ui interface",
   "version": "0.0.1",
   "license": "MIT",
   "private": true,
