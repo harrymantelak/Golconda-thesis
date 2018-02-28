@@ -82,7 +82,7 @@ contract CrowdfundedCharity {
       Campaign storage c = campaigns[campaignID];
       // Creates a new temporary memory struct, initialised with the given values
       // and copies it over to memory.
-      require(campaignID <= numCampaigns);
+      require( campaignID <= numCampaigns);
       require( c.fundingDeadlineBlock > block.number );
       require( c.amount + msg.value <= c.fundingGoal );
       c.funders[c.numFunders++] = Funder({addr: msg.sender, amount: msg.value, campaignID: campaignID});
@@ -101,6 +101,7 @@ contract CrowdfundedCharity {
 
     function checkGoalReached(uint campaignID) stopInEmergency public returns (bool reached) {
         Campaign storage c = campaigns[campaignID];
+        require( c.state > 3);
         if ( c.fundingDeadlineBlock <= block.number) {
           if (c.amount < c.fundingGoal) {
             //Charity Failed, Initiate Refunds
@@ -121,7 +122,7 @@ contract CrowdfundedCharity {
             return true;
           }
         }
-        //For testing
+        //In case funding ended early
         if (c.amount >= c.fundingGoal){
           // Charity Successful, Transfer Amount
           amount = c.amount;
